@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Media Query</title>
+    <style>
+        div {
+            border: 10px solid green;
+            font-size: 60px
+        }
+
+        /* screen width < 800px : 스크린 최대 폭이 800px 보다 작다*/
+        @media(max-width: 800px) {
+            div {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        Responsive
+    </div>
+</body>
+
+</html>
