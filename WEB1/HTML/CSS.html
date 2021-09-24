@@ -4,79 +4,19 @@
 <head>
     <title>Web1 - CSS</title>
     <meta charset="utf-8">
-    <style>
-        body {
-            margin: 0;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        a {
-            color: black;
-            text-decoration: none;
-        }
-
-        h1 {
-            font-size: 45px;
-            text-align: center;
-            border-bottom: 1px solid gray;
-            margin: 0%;
-            padding: 20px;
-        }
-
-        ol {
-            border-right: 1px solid gray;
-            width: 150px;
-            margin: 0%;
-            padding: 20px;
-        }
-
-        /* id의 값은 단 한번만 등장해야 한다!! 
-        일상생활에서 id의 개념과 동일(중복되선 안된다.)*/
-        #grid {
-            display: grid;
-            grid-template-columns: 210px 1fr;
-        }
-
-        #grid ol {
-            padding-left: 45px;
-        }
-
-        #grid #article {
-            padding-left: 30px;
-        }
-
-        @media(max-width:800px) {
-            #grid {
-                display: block;
-            }
-
-            ol {
-                border-right: none;
-            }
-
-            h1 {
-                border-bottom: none;
-            }
-        }
-    </style>
 </head>
 
 <body>
-    <h1>
-        <a href="index.html">WEB</a>
-    </h1>
+    <h1>       <a href="index.html">WEB</a>    </h1>
     <div id="grid">
         <ol>
-            <li>
-                <a href="HTML.html" class="saw">HTML</a>
-                <!-- class : HTML의 속성 -->
-            </li>
-            <li>
-                <a href="CSS.html">CSS</a>
-                <!-- id 선택자는 class 선택자 보다 우선순위가 높다. -->
-            </li>
-            <li>
-                <a href="JavaScript.html">JavaScrip</a>
-            </li>
+            <!-- class : HTML의 속성 -->
+            <li><a href="HTML.html" class="saw">HTML</a> </li>
+            <!-- id 선택자는 class 선택자 보다 우선순위가 높다. -->
+            <li> <a href="CSS.html">CSS</a> </li>
+            <li> <a href="JavaScript.html">JavaScrip</a> </li>
         </ol>
         <!--
 <h1><a href="index.html"><font color="red">WEB</font></a></h1>
