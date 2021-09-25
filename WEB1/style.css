@@ -10,7 +10,6 @@ body {
 /*id값은 단 한번만 등장해야 한다.*/
 
 a {
-  color: black;
   text-decoration: none;
 }
 
