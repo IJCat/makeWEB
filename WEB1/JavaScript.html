@@ -7,31 +7,68 @@
   </head>
 
   <body>
-    <input type="button" value="night" onclick="
-    document.querySelector('body').style.backgroundColor='black';
-    document.querySelector('body').style.color='white'">
-    <input type="button" value="day" onclick="
-    document.querySelector('body').style.backgroundColor='white';
-    document.querySelector('body').style.color='black'">
+    <input
+      type="button"
+      value="night"
+      onclick="
+      // this 키워드를 통해 자기 자신을 가리킬 수 있다. 리팩토링!
+      var target = document.querySelector('body');
+
+      if (this.value === 'night') {
+    target.style.backgroundColor='black';
+    target.style.color='white';
+    this.value = 'day';
+  } else {
+    target.style.backgroundColor='white';
+    target.style.color='black';
+    this.value = 'night';
+    }
+    "
+    />
+
     <h1><a href="index.html">WEB</a></h1>
-    <ol>
+
+    <div id="grid">
+      <ol>
         <li><a href="HTML.html">HTML</a></li>
         <li><a href="CSS.html">CSS</a></li>
-        <li><a href="JavaScript.html" class="saw">JavaScrip</a></li>
+        <li><a href="JavaScript.html" class="saw">JavaScript</a></li>
       </ol>
-      <p>
-        JavaScript(JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions. While it is most well-known as the scripting language for Web pages, many non-browser environments also use it, such as Node.js, Apache CouchDB and Adobe
-        Acrobat. vaScriptJa is a prototype-based, multi-paradigm, single-threaded, dynamic language, supporting object-oriented, imperative, and declarative (e.g. functional programming) styles. Read more about JavaScript.
-      </p>
-      <p>
-        This section is dedicated to the JavaScript language itself, and not the parts that are specific to Web pages or other host environments. For information about API specifics to Web pages, please see Web APIs and DOM.
-      </p>
-      <p>
-        The standards for JavaScript are the ECMAScript Language Specification(ECMA-262) and the ECMAScript Internationalization API specification(ECMA-402). The JavaScript documentation throughout MDN is based on the latest draft versions of ECMA-262 and ECMA-402. And in cases where some proposals for new ECMAScript features have already been implemented in browsers, documentation and examples in MDN articles may use some of those new features.
-      </p>
-      <p>
-        Do not confuse JavaScript with the Java programming language. Both "Java" and "JavaScript" are trademarks or registered trademarks of Oracle in the U.S. and other countries. However, the two programming languages have very different syntax, semantics, and use.
-      </p>
+
+      <div id="article">
+        <h2>JavaScript</h2>
+        <p>
+          JavaScript(JS) is a lightweight, interpreted, or just-in-time compiled
+          programming language with first-class functions. While it is most
+          well-known as the scripting language for Web pages, many non-browser
+          environments also use it, such as Node.js, Apache CouchDB and Adobe
+          Acrobat. vaScriptJa is a prototype-based, multi-paradigm,
+          single-threaded, dynamic language, supporting object-oriented,
+          imperative, and declarative (e.g. functional programming) styles. Read
+          more about JavaScript.
+        </p>
+        <p>
+          This section is dedicated to the JavaScript language itself, and not
+          the parts that are specific to Web pages or other host environments.
+          For information about API specifics to Web pages, please see Web APIs
+          and DOM.
+        </p>
+        <p>
+          The standards for JavaScript are the ECMAScript Language
+          Specification(ECMA-262) and the ECMAScript Internationalization API
+          specification(ECMA-402). The JavaScript documentation throughout MDN
+          is based on the latest draft versions of ECMA-262 and ECMA-402. And in
+          cases where some proposals for new ECMAScript features have already
+          been implemented in browsers, documentation and examples in MDN
+          articles may use some of those new features.
+        </p>
+        <p>
+          Do not confuse JavaScript with the Java programming language. Both
+          "Java" and "JavaScript" are trademarks or registered trademarks of
+          Oracle in the U.S. and other countries. However, the two programming
+          languages have very different syntax, semantics, and use.
+        </p>
+      </div>
     </div>
   </body>
 </html>
