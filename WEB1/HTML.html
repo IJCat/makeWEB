@@ -4,10 +4,16 @@
     <title>Web1 - HTML</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
+    <script src="colors.js"></script>
   </head>
 
   <body>
+    <!-- nightDayHandler 함수를 사용할 때는 this 키워드 사용 
+    이때 this는 input 태그 안쪽을 가리킨다-->
+    <input type="button" value="night" onclick="nightDayHandler(this);" />
+
     <h1><a href="index.html">WEB</a></h1>
+
     <div id="grid">
       <ol>
         <li><a href="HTML.html" id="active">HTML</a></li>
