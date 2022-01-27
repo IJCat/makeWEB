@@ -1,8 +1,9 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
+var qs = require('querystring');
 
-function templateHTML(title, list, body) {
+function templateHTML(title, list, body, control) {
   var template = `
       <!doctype html>
       <html>
@@ -13,8 +14,7 @@ function templateHTML(title, list, body) {
       <body>
         <h1><a href="/">WEB</a></h1>
         ${list}
-        <button type="button" onclick="location.href='/create'">create</button>
-        <a href="/create">create</a>
+        ${control}
         ${body}
       </body>
       </html>
@@ -46,8 +46,13 @@ var app = http.createServer(function (request, response) {
         var description = 'Hello, Node.js';
         var list = templateList(filelist);
         var body = `<h2>${title}</h2><p>${description}</p>`;
+        var control = `
+            <p>
+              <button type="button" onclick="location.href='/create'">create</button>
+            </p>
+            `;
 
-        var template = templateHTML(title, list, body);
+        var template = templateHTML(title, list, body, control);
 
         response.writeHead(200);
         response.end(template);
@@ -61,8 +66,14 @@ var app = http.createServer(function (request, response) {
             var title = queryData.id;
             var list = templateList(filelist);
             var body = `<h2>${title}</h2><p>${description}</p>`;
+            var control = `
+            <p>
+              <button type="button" onclick="location.href='/create'">create</button>
+              <button type="button" onclick="location.href='/update?id=${title}'">update</button>
+            </p>
+            `;
 
-            var template = templateHTML(title, list, body);
+            var template = templateHTML(title, list, body, control);
             response.writeHead(200);
             response.end(template);
           }
@@ -73,7 +84,7 @@ var app = http.createServer(function (request, response) {
     fs.readdir('./data', function (err, filelist) {
       var title = 'WEB - create';
       var list = templateList(filelist);
-      var body = `<form action="http://localhost:3000/precess_create" method="post">
+      var body = `<form action="/create_process" method="post">
       <p>
         <input type="text" name="title" placeholder="title"/>
       </p>
@@ -85,11 +96,67 @@ var app = http.createServer(function (request, response) {
       </p>
     </form>
     `;
-
-      var template = templateHTML(title, list, body);
+      var control = '';
+      var template = templateHTML(title, list, body, control);
 
       response.writeHead(200);
       response.end(template);
+    });
+  } else if (pathname === '/create_process') {
+    var body = '';
+
+    request.on('data', function (data) {
+      body += data;
+
+      // Too much POST data, kill the connection!
+      // 1e6 === 1 * Math.pow(10,6) === 1 * 1000000 ~~~ 1MB
+      if (body.length > 1e6) {
+        request.connection.destroy();
+      }
+    });
+
+    request.on('end', function () {
+      var post = qs.parse(body);
+      var title = post.title;
+      var description = post.description;
+      console.log(post.title);
+      // use post['blah'], etc.
+
+      fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
+        response.writeHead(302, { Location: `/?id=${title}` });
+        response.end();
+      });
+    });
+  } else if (pathname === '/update') {
+    fs.readdir('./data', function (err, filelist) {
+      fs.readFile(`data/${queryData.id}`, 'utf8', function (err, description) {
+        var title = queryData.id;
+        var list = templateList(filelist);
+        var body = `
+          <form action="/update_process" method="post">
+          <input type="hidden" name="id" value="${title}"/>
+            <p>
+              <input type="text" name="title" placeholder="title" value="${title}"/>
+            </p>
+            <p>
+              <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
+            </p>
+            <p>
+              <input type="submit" value="submit" />
+            </p>
+          </form>
+        `;
+        var control = `
+          <p>
+            <button type="button" onclick="location.href='/create'">create</button>
+            <button type="button" onclick="location.href='/update?id=${title}'">update</button>
+          </p>
+          `;
+
+        var template = templateHTML(title, list, body, control);
+        response.writeHead(200);
+        response.end(template);
+      });
     });
   } else {
     response.writeHead(404);
