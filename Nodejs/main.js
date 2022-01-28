@@ -2,36 +2,8 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
-
-function templateHTML(title, list, body, control) {
-  var template = `
-      <!doctype html>
-      <html>
-      <head>
-        <title>WEB1 - ${title}</title>
-        <meta charset="utf-8">
-      </head>
-      <body>
-        <h1><a href="/">WEB</a></h1>
-        ${list}
-        ${control}
-        ${body}
-      </body>
-      </html>
-      `;
-  return template;
-}
-
-function templateList(filelist) {
-  var list = '<ul>';
-  var i = 0;
-  while (i < filelist.length) {
-    list += `<li><a href ="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
-    i++;
-  }
-  list += '</ul>';
-  return list;
-}
+var template = require('./lib/template.js');
+var path = require('path');
 
 var app = http.createServer(function (request, response) {
   var _url = request.url;
@@ -44,67 +16,63 @@ var app = http.createServer(function (request, response) {
       fs.readdir('./data', function (err, filelist) {
         var title = 'Welcome';
         var description = 'Hello, Node.js';
-        var list = templateList(filelist);
+        var list = template.list(filelist);
         var body = `<h2>${title}</h2><p>${description}</p>`;
         var control = `
-            <p>
-              <button type="button" onclick="location.href='/create'">create</button>
-            </p>
-            `;
-
-        var template = templateHTML(title, list, body, control);
+        <p>
+        <button type="button" onclick="location.href='/create'">create</button>
+        </p>
+        `;
+        var html = template.HTML(title, list, body, control);
 
         response.writeHead(200);
-        response.end(template);
+        response.end(html);
       });
     } else {
       fs.readdir('./data', function (err, filelist) {
-        fs.readFile(
-          `data/${queryData.id}`,
-          'utf8',
-          function (err, description) {
-            var title = queryData.id;
-            var list = templateList(filelist);
-            var body = `<h2>${title}</h2><p>${description}</p>`;
-            var control = `
+        var filteredId = path.parse(queryData.id).base;
+        fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
+          var title = queryData.id;
+          var list = template.list(filelist);
+          var body = `<h2>${title}</h2><p>${description}</p>`;
+          var control = `
             <p>
-              <button type="button" onclick="location.href='/create'">create</button>
+            <button type="button" onclick="location.href='/create'">create</button>
               <button type="button" onclick="location.href='/update?id=${title}'">update</button>
               <form action="delete_process" method = "post">
-                <input type="hidden" name="id" value="${title}">
-                <input type="submit" value="delete">
+              <input type="hidden" name="id" value="${title}">
+              <input type="submit" value="delete">
               </form>
-            </p>
-            `;
+              </p>
+              `;
+          var html = template.HTML(title, list, body, control);
 
-            var template = templateHTML(title, list, body, control);
-            response.writeHead(200);
-            response.end(template);
-          }
-        );
+          response.writeHead(200);
+          response.end(html);
+        });
       });
     }
   } else if (pathname === '/create') {
     fs.readdir('./data', function (err, filelist) {
       var title = 'WEB - create';
-      var list = templateList(filelist);
+      var list = template.list(filelist);
       var body = `<form action="/create_process" method="post">
       <p>
-        <input type="text" name="title" placeholder="title"/>
+      <input type="text" name="title" placeholder="title"/>
       </p>
       <p>
-        <textarea name="description" placeholder="description" cols="30" rows="10"></textarea>
+      <textarea name="description" placeholder="description" cols="30" rows="10"></textarea>
       </p>
       <p>
-        <input type="submit" value="submit" />
+      <input type="submit" value="submit" />
       </p>
-    </form>
-    `;
+      </form>
+      `;
       var control = '';
-      var template = templateHTML(title, list, body, control);
+      var html = template.HTML(title, list, body, control);
 
       response.writeHead(200);
-      response.end(template);
+      response.end(html);
     });
   } else if (pathname === '/create_process') {
     var body = '';
@@ -133,64 +101,35 @@ var app = http.createServer(function (request, response) {
     });
   } else if (pathname === '/update') {
     fs.readdir('./data', function (err, filelist) {
-      fs.readFile(`data/${queryData.id}`, 'utf8', function (err, description) {
+      var filteredId = path.parse(queryData.id).base;
+
+      fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
         var title = queryData.id;
-        var list = templateList(filelist);
+        var list = template.list(filelist);
         var body = `
-          <form action="/update_process" method="post">
-          <input type="hidden" name="id" value="${title}"/>
+        <form action="/update_process" method="post">
+        <input type="hidden" name="id" value="${title}"/>
             <p>
-              <input type="text" name="title" placeholder="title" value="${title}"/>
+            <input type="text" name="title" placeholder="title" value="${title}"/>
             </p>
             <p>
-              <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
+            <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
             </p>
             <p>
-              <input type="submit" value="submit" />
+            <input type="submit" value="submit" />
             </p>
-          </form>
+            </form>
         `;
         var control = `
-          <p>
-            <button type="button" onclick="location.href='/create'">create</button>
-            <button type="button" onclick="location.href='/update?id=${title}'">update</button>
-          </p>
+        <p>
+        <button type="button" onclick="location.href='/create'">create</button>
+        <button type="button" onclick="location.href='/update?id=${title}'">update</button>
+        </p>
           `;
+        var html = template.HTML(title, list, body, control);
 
-        var template = templateHTML(title, list, body, control);
         response.writeHead(200);
-        response.end(template);
-      });
-    });
-  } else if (pathname === '/update') {
-    fs.readdir('./data', function (err, filelist) {
-      fs.readFile(`data/${queryData.id}`, 'utf8', function (err, description) {
-        var title = queryData.id;
-        var list = templateList(filelist);
-        var body = `
-          <form action="/update_process" method="post">
-          <input type="hidden" name="id" value="${title}"/>
-            <p>
-              <input type="text" name="title" placeholder="title" value="${title}"/>
-            </p>
-            <p>
-              <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
-            </p>
-            <p>
-              <input type="submit" value="submit" />
-            </p>
-          </form>
-        `;
-        var control = `
-          <p>
-            <button type="button" onclick="location.href='/create'">create</button>
-            <button type="button" onclick="location.href='/update?id=${title}'">update</button>
-          </p>
-          `;
-
-        var template = templateHTML(title, list, body, control);
-        response.writeHead(200);
-        response.end(template);
+        response.end(html);
       });
     });
   } else if (pathname === '/update_process') {
@@ -222,7 +161,9 @@ var app = http.createServer(function (request, response) {
     request.on('end', function () {
       var post = qs.parse(body);
       var id = post.id;
-      fs.unlink(`data/${id}`, function (err) {
+      var filteredId = path.parse(id).base;
+
+      fs.unlink(`data/${filteredId}`, function (err) {
         response.writeHead(302, { Location: `/` });
         response.end();
       });
