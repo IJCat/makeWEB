@@ -70,6 +70,10 @@ var app = http.createServer(function (request, response) {
             <p>
               <button type="button" onclick="location.href='/create'">create</button>
               <button type="button" onclick="location.href='/update?id=${title}'">update</button>
+              <form action="delete_process" method = "post">
+                <input type="hidden" name="id" value="${title}">
+                <input type="submit" value="delete">
+              </form>
             </p>
             `;
 
@@ -158,6 +162,37 @@ var app = http.createServer(function (request, response) {
         response.end(template);
       });
     });
+  } else if (pathname === '/update') {
+    fs.readdir('./data', function (err, filelist) {
+      fs.readFile(`data/${queryData.id}`, 'utf8', function (err, description) {
+        var title = queryData.id;
+        var list = templateList(filelist);
+        var body = `
+          <form action="/update_process" method="post">
+          <input type="hidden" name="id" value="${title}"/>
+            <p>
+              <input type="text" name="title" placeholder="title" value="${title}"/>
+            </p>
+            <p>
+              <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
+            </p>
+            <p>
+              <input type="submit" value="submit" />
+            </p>
+          </form>
+        `;
+        var control = `
+          <p>
+            <button type="button" onclick="location.href='/create'">create</button>
+            <button type="button" onclick="location.href='/update?id=${title}'">update</button>
+          </p>
+          `;
+
+        var template = templateHTML(title, list, body, control);
+        response.writeHead(200);
+        response.end(template);
+      });
+    });
   } else if (pathname === '/update_process') {
     var body = '';
 
@@ -176,7 +211,21 @@ var app = http.createServer(function (request, response) {
           response.end();
         });
       });
-      console.log(post);
+    });
+  } else if (pathname === '/delete_process') {
+    var body = '';
+
+    request.on('data', function (data) {
+      body += data;
+    });
+
+    request.on('end', function () {
+      var post = qs.parse(body);
+      var id = post.id;
+      fs.unlink(`data/${id}`, function (err) {
+        response.writeHead(302, { Location: `/` });
+        response.end();
+      });
     });
   } else {
     response.writeHead(404);
