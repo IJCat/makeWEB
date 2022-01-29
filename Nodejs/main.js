@@ -23,19 +23,6 @@ var app = http.createServer(function (request, response) {
 
   if (pathname === '/') {
     if (queryData.id === undefined) {
-      /* fs.readdir('./data', function (err, filelist) {
-        var title = 'Welcome';
-        var description = 'Hello, Node.js';
-        var list = template.list(filelist);
-        var body = `<h2>${title}</h2><p>${description}</p>`;
-        var control = `
-        <p>
-        <button type="button" onclick="location.href='/create'">create</button>
-        </p>
-        `;
-        var html = template.HTML(title, list, body, control); 
-      */
-
       db.query(`SELECT * FROM topic`, function (error, topics) {
         var title = 'Welcome';
         var description = 'Hello, Node.js';
@@ -58,26 +45,6 @@ var app = http.createServer(function (request, response) {
         response.end(html);
       });
     } else {
-      /* fs.readdir('./data', function (err, filelist) {
-        var filteredId = path.parse(queryData.id).base;
-        fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
-          var title = queryData.id;
-          var sanitizedTitle = sanitizeHtml(title);
-          var sanitizedDescription = sanitizeHtml(description);
-          var list = template.list(filelist);
-          var body = `<h2>${sanitizedTitle}</h2><p>${sanitizedDescription}</p>`;
-          var control = `
-            <p>
-            <button type="button" onclick="location.href='/create'">create</button>
-              <button type="button" onclick="location.href='/update?id=${sanitizedTitle}'">update</button>
-              <form action="delete_process" method = "post">
-              <input type="hidden" name="id" value="${sanitizedTitle}">
-              <input type="submit" value="delete">
-              </form>
-              </p>
-              `;
-          var html = template.HTML(sanitizedTitle, list, body, control); */
-
       db.query(`SELECT * FROM topic`, function (error, topics) {
         // error exception
         if (error) {
@@ -131,10 +98,12 @@ var app = http.createServer(function (request, response) {
       });
     }
   } else if (pathname === '/create') {
-    fs.readdir('./data', function (err, filelist) {
-      var title = 'WEB - create';
-      var list = template.list(filelist);
-      var body = `<form action="/create_process" method="post">
+    db.query(`SELECT * FROM topic`, function (error, topics) {
+      var title = 'Create';
+
+      // html body tag with form
+      var body = `
+      <form action="/create_process" method="post">
       <p>
       <input type="text" name="title" placeholder="title"/>
       </p>
@@ -146,7 +115,16 @@ var app = http.createServer(function (request, response) {
       </p>
       </form>
       `;
-      var control = '';
+
+      // 'create' button
+      var control = `
+      <p>
+      <button type="button" onclick="location.href='/create'">create</button>
+      </p>
+      `;
+
+      // import method template module
+      var list = template.list(topics);
       var html = template.HTML(title, list, body, control);
 
       response.writeHead(200);
@@ -167,15 +145,23 @@ var app = http.createServer(function (request, response) {
 
     request.on('end', function () {
       var post = qs.parse(body);
-      var title = post.title;
-      var description = post.description;
       console.log(post.title);
-      // use post['blah'], etc.
 
-      fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-        response.writeHead(302, { Location: `/?id=${title}` });
-        response.end();
-      });
+      // db로 바로 inser함
+      db.query(
+        `INSERT INTO topic (title, description, created, author_id) VALUE(?, ?, NOW(), ?);`,
+        [title, description, 1],
+        function (error, result) {
+          // error handling
+          if (error) {
+            throw error;
+          }
+
+          // insert한 행의 값에 대한 id값으로 redirection
+          response.writeHead(302, { Location: `/?id=${result.insertId}` });
+          response.end();
+        }
+      );
     });
   } else if (pathname === '/update') {
     fs.readdir('./data', function (err, filelist) {
