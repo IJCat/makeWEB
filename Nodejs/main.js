@@ -27,9 +27,6 @@ var app = http.createServer(function (request, response) {
         var title = 'Welcome';
         var description = 'Hello, Node.js';
 
-        // html body tag
-        var body = `<h2>${title}</h2><p>${description}</p>`;
-
         // 'create' button
         var control = `
         <p>
@@ -37,9 +34,12 @@ var app = http.createServer(function (request, response) {
         </p>
         `;
 
+        // html body tag
+        var body = `<h2>${title}</h2><p>${description}</p>`;
+
         // import method template module
         var list = template.list(topics);
-        var html = template.HTML(title, list, body, control);
+        var html = template.HTML(title, list, control, body);
 
         response.writeHead(200);
         response.end(html);
@@ -52,7 +52,7 @@ var app = http.createServer(function (request, response) {
         }
 
         // log topics => array
-        console.log(topics);
+        // console.log(topics);
 
         // id값을 직접 주면(${queryData.id}) DB가 갖고있는 코드의 특성에 따라 공격받을 가능성이 있다. 사용자가 입력한 정보는 무조건 불신!
         // ?를 쓰고 ?에 무슨 값이 들어올 지를 두번재 인자로 전달.
@@ -60,7 +60,6 @@ var app = http.createServer(function (request, response) {
           `SELECT * FROM topic WHERE id=?`,
           [queryData.id],
           function (error2, topic) {
-            // error2 exceiption
             if (error2) {
               throw error2;
             }
@@ -71,9 +70,6 @@ var app = http.createServer(function (request, response) {
             // query의 where id = queryData.id 값으로 들어오는 object의 title & description
             var title = topic[0].title;
             var description = topic[0].description;
-
-            // html body tag
-            var body = `<h2>${title}</h2>${description}`;
 
             // button tag
             var control = `
@@ -87,9 +83,12 @@ var app = http.createServer(function (request, response) {
             </p>
             `;
 
+            // html body tag
+            var body = `<h2>${title}</h2>${description}`;
+
             // import method template module
             var list = template.list(topics);
-            var html = template.HTML(title, list, body, control);
+            var html = template.HTML(title, list, control, body);
 
             response.writeHead(200);
             response.end(html);
@@ -100,6 +99,13 @@ var app = http.createServer(function (request, response) {
   } else if (pathname === '/create') {
     db.query(`SELECT * FROM topic`, function (error, topics) {
       var title = 'Create';
+
+      // 'create' button
+      var control = `
+      <p>
+      <button type="button" onclick="location.href='/create'">create</button>
+      </p>
+      `;
 
       // html body tag with form
       var body = `
@@ -116,16 +122,9 @@ var app = http.createServer(function (request, response) {
       </form>
       `;
 
-      // 'create' button
-      var control = `
-      <p>
-      <button type="button" onclick="location.href='/create'">create</button>
-      </p>
-      `;
-
       // import method template module
       var list = template.list(topics);
-      var html = template.HTML(title, list, body, control);
+      var html = template.HTML(title, list, control, body);
 
       response.writeHead(200);
       response.end(html);
@@ -147,12 +146,11 @@ var app = http.createServer(function (request, response) {
       var post = qs.parse(body);
       console.log(post.title);
 
-      // db로 바로 inser함
+      // db로 바로 insert함
       db.query(
         `INSERT INTO topic (title, description, created, author_id) VALUE(?, ?, NOW(), ?);`,
         [title, description, 1],
         function (error, result) {
-          // error handling
           if (error) {
             throw error;
           }
@@ -164,56 +162,77 @@ var app = http.createServer(function (request, response) {
       );
     });
   } else if (pathname === '/update') {
-    fs.readdir('./data', function (err, filelist) {
-      var filteredId = path.parse(queryData.id).base;
+    db.query(`SELECT * FROM topic`, function (error, topics) {
+      if (error) {
+        throw error;
+      }
 
-      fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
-        var title = queryData.id;
-        var list = template.list(filelist);
-        var body = `
-        <form action="/update_process" method="post">
-        <input type="hidden" name="id" value="${title}"/>
-            <p>
-            <input type="text" name="title" placeholder="title" value="${title}"/>
-            </p>
-            <p>
-            <textarea name="description" placeholder="description" cols="30" rows="10">${description}</textarea>
-            </p>
-            <p>
-            <input type="submit" value="submit" />
-            </p>
+      // update할 db값 참조 -> id값으로 검색
+      db.query(
+        `SELECT * FROM topic WHERE id=?`,
+        [queryData.id],
+        function (error2, topic) {
+          if (error2) {
+            throw error2;
+          }
+          // 검색된 row값 log
+          console.log(topic);
+
+          var list = template.list(topics);
+          var control = `
+              <p>
+                <button type="button" onclick="location.href='/create'">create</button>
+                <button type="button" onclick="location.href='/update?id=${topic[0].id}'">update</button>
+              </p>
+            `;
+
+          var body = `
+            <form action="/update_process" method="post">
+              <input type="hidden" name="id" value="${topic[0].id}"/>
+              <p>
+                <input type="text" name="title" placeholder="title" value="${topic[0].title}"/>
+              </p>
+              <p>
+                <textarea name="description" placeholder="description" cols="30" rows="10">${topic[0].description}</textarea>
+              </p>
+              <p>
+                <input type="submit" value="submit" />
+              </p>
             </form>
-        `;
-        var control = `
-        <p>
-        <button type="button" onclick="location.href='/create'">create</button>
-        <button type="button" onclick="location.href='/update?id=${title}'">update</button>
-        </p>
-          `;
-        var html = template.HTML(title, list, body, control);
+            `;
 
-        response.writeHead(200);
-        response.end(html);
-      });
+          var html = template.HTML(topic[0].title, list, control, body);
+
+          response.writeHead(200);
+          response.end(html);
+        }
+      );
     });
   } else if (pathname === '/update_process') {
     var body = '';
 
     request.on('data', function (data) {
+      console.log('data is =>', typeof data, data);
       body += data;
     });
 
     request.on('end', function () {
+      console.log('body is =>', body);
       var post = qs.parse(body);
-      var id = post.id;
-      var title = post.title;
-      var description = post.description;
-      fs.rename(`data/${id}`, `data/${title}`, function (err) {
-        fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-          response.writeHead(302, { Location: `/?id=${title}` });
+
+      db.query(
+        `UPDATE topic SET title=?, description=?, author_id=1 WHERE id=?`,
+        [post.title, post.description, post.id],
+        function (error, result) {
+          if (error) {
+            throw error;
+          }
+
+          // update한 행의 값에 대한 id값으로 redirection
+          response.writeHead(302, { Location: `/?id=${post.id}` });
           response.end();
-        });
-      });
+        }
+      );
     });
   } else if (pathname === '/delete_process') {
     var body = '';
