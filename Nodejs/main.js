@@ -220,6 +220,7 @@ var app = http.createServer(function (request, response) {
       console.log('body is =>', body);
       var post = qs.parse(body);
 
+      // where 값 안넣으면 db 전체가 업데이트 됨!
       db.query(
         `UPDATE topic SET title=?, description=?, author_id=1 WHERE id=?`,
         [post.title, post.description, post.id],
@@ -243,13 +244,21 @@ var app = http.createServer(function (request, response) {
 
     request.on('end', function () {
       var post = qs.parse(body);
-      var id = post.id;
-      var filteredId = path.parse(id).base;
 
-      fs.unlink(`data/${filteredId}`, function (err) {
-        response.writeHead(302, { Location: `/` });
-        response.end();
-      });
+      // where 값 안넣으면 db 전체가 삭제됨!
+      db.query(
+        `DELETE FROM topic WHERE id=?`,
+        [post.id],
+        function (error, result) {
+          if (error) {
+            throw error;
+          }
+
+          // 삭제 후 Home으로 redirection
+          response.writeHead(302, { Location: `/` });
+          response.end();
+        }
+      );
     });
   } else {
     response.writeHead(404);
