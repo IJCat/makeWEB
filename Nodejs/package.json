@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "pm2": "^5.1.2",
-    "sanitize-html": "^2.6.1"
+    "sanitize-html": "^2.6.1",
+    "mysql": "^2.18.1"
   },
   "name": "nodejs",
   "version": "1.0.0",

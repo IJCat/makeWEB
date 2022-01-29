@@ -5,6 +5,15 @@ var qs = require('querystring');
 var template = require('./lib/template.js');
 var path = require('path');
 var sanitizeHtml = require('sanitize-html');
+var mysql = require('mysql');
+var db = mysql.createConnection({
+  host: 'localhost',
+  user: 'nodejs',
+  password: 'cafe7979',
+  database: 'opentutorials',
+});
+
+db.connect();
 
 var app = http.createServer(function (request, response) {
   var _url = request.url;
@@ -14,7 +23,7 @@ var app = http.createServer(function (request, response) {
 
   if (pathname === '/') {
     if (queryData.id === undefined) {
-      fs.readdir('./data', function (err, filelist) {
+      /* fs.readdir('./data', function (err, filelist) {
         var title = 'Welcome';
         var description = 'Hello, Node.js';
         var list = template.list(filelist);
@@ -24,13 +33,32 @@ var app = http.createServer(function (request, response) {
         <button type="button" onclick="location.href='/create'">create</button>
         </p>
         `;
+        var html = template.HTML(title, list, body, control); 
+      */
+
+      db.query(`SELECT * FROM topic`, function (error, topics) {
+        var title = 'Welcome';
+        var description = 'Hello, Node.js';
+
+        // html body tag
+        var body = `<h2>${title}</h2><p>${description}</p>`;
+
+        // 'create' button
+        var control = `
+        <p>
+        <button type="button" onclick="location.href='/create'">create</button>
+        </p>
+        `;
+
+        // import method template module
+        var list = template.list(topics);
         var html = template.HTML(title, list, body, control);
 
         response.writeHead(200);
         response.end(html);
       });
     } else {
-      fs.readdir('./data', function (err, filelist) {
+      /* fs.readdir('./data', function (err, filelist) {
         var filteredId = path.parse(queryData.id).base;
         fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
           var title = queryData.id;
@@ -48,11 +76,58 @@ var app = http.createServer(function (request, response) {
               </form>
               </p>
               `;
-          var html = template.HTML(sanitizedTitle, list, body, control);
+          var html = template.HTML(sanitizedTitle, list, body, control); */
 
-          response.writeHead(200);
-          response.end(html);
-        });
+      db.query(`SELECT * FROM topic`, function (error, topics) {
+        // error exception
+        if (error) {
+          throw error;
+        }
+
+        // log topics => array
+        console.log(topics);
+
+        // id값을 직접 주면(${queryData.id}) DB가 갖고있는 코드의 특성에 따라 공격받을 가능성이 있다. 사용자가 입력한 정보는 무조건 불신!
+        // ?를 쓰고 ?에 무슨 값이 들어올 지를 두번재 인자로 전달.
+        db.query(
+          `SELECT * FROM topic WHERE id=?`,
+          [queryData.id],
+          function (error2, topic) {
+            // error2 exceiption
+            if (error2) {
+              throw error2;
+            }
+
+            // topic 데이터는 배열 형태로 들어온다.
+            console.log(topic[0].title);
+
+            // query의 where id = queryData.id 값으로 들어오는 object의 title & description
+            var title = topic[0].title;
+            var description = topic[0].description;
+
+            // html body tag
+            var body = `<h2>${title}</h2>${description}`;
+
+            // button tag
+            var control = `
+            <p>
+              <button type="button" onclick="location.href='/create'">create</button>
+              <button type="button" onclick="location.href='/update?id=${queryData.id}'">update</button>
+              <form action="delete_process" method = "post">
+                <input type="hidden" name="id" value="${queryData.id}">
+                <input type="submit" value="delete">
+              </form>
+            </p>
+            `;
+
+            // import method template module
+            var list = template.list(topics);
+            var html = template.HTML(title, list, body, control);
+
+            response.writeHead(200);
+            response.end(html);
+          }
+        );
       });
     }
   } else if (pathname === '/create') {
