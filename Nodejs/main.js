@@ -57,12 +57,14 @@ var app = http.createServer(function (request, response) {
         // id값을 직접 주면(${queryData.id}) DB가 갖고있는 코드의 특성에 따라 공격받을 가능성이 있다. 사용자가 입력한 정보는 무조건 불신!
         // ?를 쓰고 ?에 무슨 값이 들어올 지를 두번재 인자로 전달.
         db.query(
-          `SELECT * FROM topic WHERE id=?`,
+          `SELECT * FROM topic LEFT JOIN author ON topic.author_id =author.id WHERE topic.id=?`,
           [queryData.id],
           function (error2, topic) {
             if (error2) {
               throw error2;
             }
+
+            console.log(topic);
 
             // topic 데이터는 배열 형태로 들어온다.
             console.log(topic[0].title);
@@ -84,7 +86,11 @@ var app = http.createServer(function (request, response) {
             `;
 
             // html body tag
-            var body = `<h2>${title}</h2>${description}`;
+            var body = `
+            <h2>${title}</h2>
+            ${description}
+            <p>by ${topic[0].name}</p>
+            `;
 
             // import method template module
             var list = template.list(topics);
