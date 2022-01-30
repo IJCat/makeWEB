@@ -104,36 +104,45 @@ var app = http.createServer(function (request, response) {
     }
   } else if (pathname === '/create') {
     db.query(`SELECT * FROM topic`, function (error, topics) {
-      var title = 'Create';
+      db.query(`SELECT * FROM author`, function (error2, authors) {
+        if (error2) {
+          throw error2;
+        }
+        console.log(authors);
+        var title = 'Create';
 
-      // 'create' button
-      var control = `
-      <p>
-      <button type="button" onclick="location.href='/create'">create</button>
-      </p>
-      `;
+        // 'create' button
+        var control = `
+        <p>
+        <button type="button" onclick="location.href='/create'">create</button>
+        </p>
+        `;
 
-      // html body tag with form
-      var body = `
-      <form action="/create_process" method="post">
-      <p>
-      <input type="text" name="title" placeholder="title"/>
-      </p>
-      <p>
-      <textarea name="description" placeholder="description" cols="30" rows="10"></textarea>
-      </p>
-      <p>
-      <input type="submit" value="submit" />
-      </p>
-      </form>
-      `;
+        // html body tag with form
+        var body = `
+        <form action="/create_process" method="post">
+          <p>
+            <input type="text" name="title" placeholder="title"/>
+          </p>
+          <p>
+            <textarea name="description" placeholder="description" cols="30" rows="10"></textarea>
+          </p>
+          <p>
+            ${template.authorSelect(authors)}
+          </p>
+          <p>
+            <input type="submit" value="submit" />
+          </p>
+        </form>
+        `;
 
-      // import method template module
-      var list = template.list(topics);
-      var html = template.HTML(title, list, control, body);
+        // import method template module
+        var list = template.list(topics);
+        var html = template.HTML(title, list, control, body);
 
-      response.writeHead(200);
-      response.end(html);
+        response.writeHead(200);
+        response.end(html);
+      });
     });
   } else if (pathname === '/create_process') {
     var body = '';
@@ -155,7 +164,7 @@ var app = http.createServer(function (request, response) {
       // db로 바로 insert함
       db.query(
         `INSERT INTO topic (title, description, created, author_id) VALUE(?, ?, NOW(), ?);`,
-        [title, description, 1],
+        [post.title, post.description, post.author],
         function (error, result) {
           if (error) {
             throw error;
