@@ -164,7 +164,7 @@ var app = http.createServer(function (request, response) {
       // db로 바로 insert함
       db.query(
         `INSERT INTO topic (title, description, created, author_id) VALUE(?, ?, NOW(), ?);`,
-        [post.title, post.description, post.author],
+        [post.title, post.description, post.authorId],
         function (error, result) {
           if (error) {
             throw error;
@@ -190,25 +190,39 @@ var app = http.createServer(function (request, response) {
           if (error2) {
             throw error2;
           }
+
           // 검색된 row값 log
           console.log(topic);
 
-          var list = template.list(topics);
-          var control = `
+          // author table 조회
+          db.query(`SELECT * FROM author`, function (error2, authors) {
+            if (error2) {
+              throw error2;
+            }
+
+            var list = template.list(topics);
+            var control = `
               <p>
                 <button type="button" onclick="location.href='/create'">create</button>
                 <button type="button" onclick="location.href='/update?id=${topic[0].id}'">update</button>
               </p>
             `;
 
-          var body = `
+            var body = `
             <form action="/update_process" method="post">
               <input type="hidden" name="id" value="${topic[0].id}"/>
               <p>
-                <input type="text" name="title" placeholder="title" value="${topic[0].title}"/>
+                <input type="text" name="title" placeholder="title" value="${
+                  topic[0].title
+                }"/>
               </p>
               <p>
-                <textarea name="description" placeholder="description" cols="30" rows="10">${topic[0].description}</textarea>
+                <textarea name="description" placeholder="description" cols="30" rows="10">${
+                  topic[0].description
+                }</textarea>
+              </p>
+              <p>
+                ${template.authorSelect(authors, topic[0].author_id)}
               </p>
               <p>
                 <input type="submit" value="submit" />
@@ -216,10 +230,11 @@ var app = http.createServer(function (request, response) {
             </form>
             `;
 
-          var html = template.HTML(topic[0].title, list, control, body);
+            var html = template.HTML(topic[0].title, list, control, body);
 
-          response.writeHead(200);
-          response.end(html);
+            response.writeHead(200);
+            response.end(html);
+          });
         }
       );
     });
@@ -237,8 +252,8 @@ var app = http.createServer(function (request, response) {
 
       // where 값 안넣으면 db 전체가 업데이트 됨!
       db.query(
-        `UPDATE topic SET title=?, description=?, author_id=1 WHERE id=?`,
-        [post.title, post.description, post.id],
+        `UPDATE topic SET title=?, description=?, author_id=? WHERE id=?`,
+        [post.title, post.description, post.authorId, post.id],
         function (error, result) {
           if (error) {
             throw error;
