@@ -9,6 +9,11 @@ const sanitizeHtml = require('sanitize-html');
 const express = require('express');
 const app = express();
 
+const bodyParser = require('body-parser');
+
+// parse application/x-www-form-urlendcoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get('/', (req, res) => {
   fs.readdir('./data', (error, filelist) => {
     var title = 'Welcome';
@@ -77,7 +82,7 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create_process', (req, res) => {
-  var body = '';
+  /* var body = '';
 
   req.on('data', data => (body += data));
 
@@ -91,7 +96,16 @@ app.post('/create_process', (req, res) => {
       // res.end();
       res.redirect(`/page/${title}`);
     });
-  });
+  }); 
+  */
+
+  var post = req.body;
+  var title = post.title;
+  var description = post.description;
+
+  fs.writeFile(`data/${title}`, description, 'utf8', err =>
+    res.redirect(`/page/${title}`)
+  );
 });
 
 app.get('/update/:pageId', (req, res) => {
@@ -125,36 +139,24 @@ app.get('/update/:pageId', (req, res) => {
 });
 
 app.post('/update_process', (req, res) => {
-  var body = '';
+  var post = req.body;
+  var id = post.id;
+  var title = post.title;
+  var description = post.description;
 
-  req.on('data', data => (body += data));
-
-  req.on('end', () => {
-    var post = qs.parse(body);
-    var id = post.id;
-    var title = post.title;
-    var description = post.description;
-
-    fs.rename(`data/${id}`, `data/${title}`, error => {
-      fs.writeFile(`data/${title}`, description, 'utf8', err => {
-        res.redirect(`/page/${title}`);
-      });
-    });
+  fs.rename(`data/${id}`, `data/${title}`, error => {
+    fs.writeFile(`data/${title}`, description, 'utf8', err =>
+      res.redirect(`/page/${title}`)
+    );
   });
 });
 
 app.post('/delete_process', (req, res) => {
-  var body = '';
+  var post = req.body;
+  var id = post.id;
+  var filteredId = path.parse(id).base;
 
-  req.on('data', data => (body += data));
-
-  req.on('end', () => {
-    var post = qs.parse(body);
-    var id = post.id;
-    var filteredId = path.parse(id).base;
-
-    fs.unlink(`data/${filteredId}`, error => res.redirect('/'));
-  });
+  fs.unlink(`data/${filteredId}`, error => res.redirect('/'));
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
