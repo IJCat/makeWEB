@@ -5,18 +5,17 @@ var qs = require('querystring');
 
 exports.home = function (request, response) {
   db.query(`SELECT * FROM topic`, function (error, topics) {
-    var title = 'Welcome';
+    var title = 'Welcome!!';
     var description = 'Hello, Node.js';
 
     // 'create' button
-    var control = `
-    <p>
-    <button type="button" onclick="location.href='/create'">create</button>
-    </p>
-    `;
+    var hasUpdate = false;
+    var hasDelete = false;
+    var control = template.makeControl(hasUpdate, hasDelete);
 
     // html body tag
-    var body = `<h2>${title}</h2><p>${description}</p>`;
+    var isPage = false;
+    var body = template.makeParagraph(isPage, title, description);
 
     // import method template module
     var list = template.list(topics);
@@ -50,8 +49,6 @@ exports.page = function (request, response) {
           throw error2;
         }
 
-        console.log(topic);
-
         // topic 데이터는 배열 형태로 들어온다.
         console.log(topic[0].title);
 
@@ -60,23 +57,15 @@ exports.page = function (request, response) {
         var description = topic[0].description;
 
         // button tag
-        var control = `
-        <p>
-          <button type="button" onclick="location.href='/create'">create</button>
-          <button type="button" onclick="location.href='/update?id=${queryData.id}'">update</button>
-          <form action="delete_process" method = "post">
-            <input type="hidden" name="id" value="${queryData.id}">
-            <input type="submit" value="delete">
-          </form>
-        </p>
-        `;
+        var hasUpdate = true;
+        var hasDelete = true;
+        var queryId = queryData.id;
+        var control = template.makeControl(hasUpdate, hasDelete, queryId);
 
         // html body tag
-        var body = `
-        <h2>${title}</h2>
-        ${description}
-        <p>by ${topic[0].name}</p>
-        `;
+        var isPage = true;
+        var author = topic[0].name;
+        var body = template.makeParagraph(isPage, title, description, author);
 
         // import method template module
         var list = template.list(topics);
@@ -95,33 +84,13 @@ exports.create = function (request, response) {
       if (error2) {
         throw error2;
       }
-      console.log(authors);
       var title = 'Create';
 
       // 'create' button
-      var control = `
-      <p>
-      <button type="button" onclick="location.href='/create'">create</button>
-      </p>
-      `;
+      var control = template.makeControl(false, false);
 
-      // html body tag with form
-      var body = `
-      <form action="/create_process" method="post">
-        <p>
-          <input type="text" name="title" placeholder="title"/>
-        </p>
-        <p>
-          <textarea name="description" placeholder="description" cols="30" rows="10"></textarea>
-        </p>
-        <p>
-          ${template.authorSelect(authors)}
-        </p>
-        <p>
-          <input type="submit" value="submit" />
-        </p>
-      </form>
-      `;
+      var authorSelect = template.authorSelect(authors);
+      var body = template.makeForm('create', authorSelect);
 
       // import method template module
       var list = template.list(topics);
@@ -194,34 +163,19 @@ exports.update = function (request, response) {
           }
 
           var list = template.list(topics);
-          var control = `
-            <p>
-              <button type="button" onclick="location.href='/create'">create</button>
-              <button type="button" onclick="location.href='/update?id=${topic[0].id}'">update</button>
-            </p>
-          `;
 
-          var body = `
-          <form action="/update_process" method="post">
-            <input type="hidden" name="id" value="${topic[0].id}"/>
-            <p>
-              <input type="text" name="title" placeholder="title" value="${
-                topic[0].title
-              }"/>
-            </p>
-            <p>
-              <textarea name="description" placeholder="description" cols="30" rows="10">${
-                topic[0].description
-              }</textarea>
-            </p>
-            <p>
-              ${template.authorSelect(authors, topic[0].author_id)}
-            </p>
-            <p>
-              <input type="submit" value="submit" />
-            </p>
-          </form>
-          `;
+          var hasUpdate = true;
+          var hasDelete = false;
+          var control = template.makeControl(hasUpdate, hasDelete, topic[0].id);
+
+          var authorSelect = template.authorSelect(authors, topic[0].author_id);
+          var body = template.makeForm(
+            'update',
+            authorSelect,
+            topic[0].id,
+            topic[0].title,
+            topic[0].description
+          );
 
           var html = template.HTML(topic[0].title, list, control, body);
 
