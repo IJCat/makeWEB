@@ -11,6 +11,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const compression = require('compression');
 
+app.use(express.static('public'));
+
 // parse application/x-www-form-urlendcoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -32,35 +34,41 @@ app.get('/', (req, res) => {
   var html = template.HTML(
     title,
     list,
-    `<h2>${title}</h2>${description}`,
+    `<h2>${title}</h2>${description}
+    <img src="/images/hello.jpg" style="width:400px; display:block; margin-top:10px;">
+    `,
     `<a href="/create">create</a>`
   );
   res.send(html);
 });
 
-app.get('/page/:pageId', (req, res) => {
+app.get('/page/:pageId', (req, res, next) => {
   var filteredId = path.parse(req.params.pageId).base;
 
   fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
-    var title = req.params.pageId;
-    var sanitizedTitle = sanitizeHtml(title);
-    var sanitizedDescription = sanitizeHtml(description, {
-      allowedTags: ['h1'],
-    });
+    if (err) {
+      next(err);
+    } else {
+      var title = req.params.pageId;
+      var sanitizedTitle = sanitizeHtml(title);
+      var sanitizedDescription = sanitizeHtml(description, {
+        allowedTags: ['h1'],
+      });
 
-    var list = template.list(req.list);
-    var html = template.HTML(
-      sanitizedTitle,
-      list,
-      `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-      ` <a href="/create">create</a>
-          <a href="/update/${sanitizedTitle}">update</a>
-          <form action="/delete_process" method="post">
-            <input type="hidden" name="id" value="${sanitizedTitle}">
-            <input type="submit" value="delete">
-          </form>`
-    );
-    res.send(html);
+      var list = template.list(req.list);
+      var html = template.HTML(
+        sanitizedTitle,
+        list,
+        `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+        ` <a href="/create">create</a>
+            <a href="/update/${sanitizedTitle}">update</a>
+            <form action="/delete_process" method="post">
+              <input type="hidden" name="id" value="${sanitizedTitle}">
+              <input type="submit" value="delete">
+            </form>`
+      );
+      res.send(html);
+    }
   });
 });
 
@@ -160,6 +168,15 @@ app.post('/delete_process', (req, res) => {
   var filteredId = path.parse(id).base;
 
   fs.unlink(`data/${filteredId}`, error => res.redirect('/'));
+});
+
+app.use((req, res, next) => {
+  res.status(404).send('Sorry cant find that!');
+});
+
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
