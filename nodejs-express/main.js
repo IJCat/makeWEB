@@ -8,11 +8,14 @@ const sanitizeHtml = require('sanitize-html');
 
 const express = require('express');
 const app = express();
-
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 // parse application/x-www-form-urlendcoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// compress all responses
+app.use(compression());
 
 app.get('/', (req, res) => {
   fs.readdir('./data', (error, filelist) => {
