@@ -6,7 +6,7 @@ var qs = require('querystring');
 var bodyParser = require('body-parser');
 var sanitizeHtml = require('sanitize-html');
 var compression = require('compression');
-var template = require('./lib/template.js');
+var indexRouter = require('./routes/index');
 var topicRouter = require('./routes/topic');
 
 var { param } = require('express/lib/request');
@@ -27,22 +27,9 @@ app.get('*', function (req, res, next) {
   });
 });
 
+app.use('/', indexRouter);
 app.use('/topic', topicRouter);
 
-app.get('/', (req, res) => {
-  var title = 'Welcome';
-  var description = 'Hello, Node.js';
-  var list = template.list(req.list);
-  var html = template.HTML(
-    title,
-    list,
-    `<h2>${title}</h2>${description}
-    <img src="/images/hello.jpg" style="width:400px; display:block; margin-top:10px;">
-    `,
-    `<a href="/topic/create">create</a>`
-  );
-  res.send(html);
-});
 
 app.use((req, res, next) => {
   res.status(404).send('Sorry cant find that!');
