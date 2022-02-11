@@ -8,6 +8,8 @@ var sanitizeHtml = require('sanitize-html');
 var compression = require('compression');
 var indexRouter = require('./routes/index');
 var topicRouter = require('./routes/topic');
+var helmet = require('helmet');
+app.use(helmet());
 
 var { param } = require('express/lib/request');
 
