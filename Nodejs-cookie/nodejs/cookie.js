@@ -18,9 +18,12 @@ http
       'Set-Cookie': [
         'yummy_cookie=choco',
         'tasty_cookie=strawberry',
-        `Permanent=cookies; Max-Age=${60 * 60 * 24 * 30}`,
+        `Permanent1=cookies; Expires=Wed,21 Oct 2022 07:28:00`,
+        `Permanent2=cookies; Max-Age=${60 * 60 * 24}`,
         'Secure=Secure; Secure',
         'HttpOnly=HttpOnly;HttpOnly',
+        'Path=Path; Path=/cookie',
+        'Domain=Domain; Domain=02.org',
       ],
     });
 
