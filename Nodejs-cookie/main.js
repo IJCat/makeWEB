@@ -129,7 +129,7 @@ var app = http.createServer(function(request,response){
       request.on('end', function(){
           var post = qs.parse(body);
           var id = post.id;
-          var filteredId = path.parse(id).b≈ase;
+          var filteredId = path.parse(id).base;
           fs.unlink(`data/${filteredId}`, function(error){
             response.writeHead(302, {Location: `/`});
             response.end();
