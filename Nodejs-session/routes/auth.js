@@ -42,8 +42,8 @@ router.post('/login_process', (req, res) => {
     //sucess!
     req.session.is_logined = true;
     req.session.nickname = authData.nickname;
-
-    res.redirect(`/`);
+    req.session.save(() => res.redirect(`/`)); //session store에 세션 정보를 바로 저장(안해주면 로그인 정보 저장속도 차이 때문에 로그인이 안됨)
+    console.log(req.session);
   } else {
     res.send('Who are you?');
   }
