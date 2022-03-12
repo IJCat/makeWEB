@@ -49,6 +49,11 @@ router.post('/login_process', (req, res) => {
   }
 });
 
+// make logout link
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => res.redirect('/'));
+});
+
 /* 
 router.get('/create', (req, res) => {
   var title = 'create';
