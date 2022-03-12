@@ -5,6 +5,13 @@ var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var template = require('../lib/template.js');
 
+var authData = {
+  email: 'js@gmail.com',
+  password: '1234',
+  nickname: 'junecat',
+};
+
+// make login link
 router.get('/login', (req, res) => {
   var title = 'LogIn';
   var list = template.list(req.list);
@@ -13,7 +20,7 @@ router.get('/login', (req, res) => {
     list,
     `
       <form action="/auth/login_process" method="post">
-        <p><input type="text" name="e-mail" placeholder="e-mail"></p>
+        <p><input type="text" name="email" placeholder="e-mail"></p>
         <p><input type="password" name="pwd" placeholder="password"></p>
         <p>
           <input type="submit" value="login">
@@ -23,6 +30,21 @@ router.get('/login', (req, res) => {
     ''
   );
   res.send(html);
+});
+
+// login process
+router.post('/login_process', (req, res) => {
+  var post = req.body;
+  var email = post.email;
+  var password = post.pwd;
+
+  if (email === authData.email && password === authData.password) {
+    //sucess!
+    res.send('Welcome!');
+  } else {
+    res.send('Who are you?');
+  }
+  // res.redirect(`/topic/${title}`);
 });
 
 /* 
