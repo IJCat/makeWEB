@@ -1,7 +1,7 @@
 var express = require('express');
 var parseurl = require('parseurl');
 var session = require('express-session');
-
+var File;
 var app = express();
 
 app.use(
@@ -12,30 +12,14 @@ app.use(
   })
 );
 
-// app.use(function (req, res, next) {
-//   if (!req.session.views) {
-//     req.session.views = {};
-//   }
-
-//   // get the rul pathname
-//   var pathname = parseurl(req).pathname;
-
-//   // count the views
-//   req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
-//   next();
-// });
-
-// app.get('/foo', function (req, res, next) {
-//   res.send('you viewed this page ' + req.session.views['/foo'] + ' times');
-// });
-
-// app.get('/bar', function (req, res, next) {
-//   res.send('you viewed this page ' + req.session.views['/bar'] + ' times');
-// });
-
 app.get('/', function (req, res, next) {
   console.log(req.session);
-  res.send('Hello Session');
+  if (req.session.num === undefined) {
+    req.session.num = 1;
+  } else {
+    req.session.num += 1;
+  }
+  res.send(`Views : ${req.session.num}`);
 });
 
 app.listen(3000, function () {
