@@ -1,0 +1,1095 @@
+Black Lives Matter.
+Support the Equal
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
+
+Black Lives Matter.
+Support the Equal Justice Initiative.
+Express
+
+    홈
+        시작하기
+        안내서
+        API 참조
+        고급 주제
+        자원
+
+StrongLoop / IBM에 의해 제공이 번역.
+이 문서는 영문판 문서에 비해 더 오래된 버전일 수도 있습니다. 최신 업데이트를 확인하려면 영문판 문서를 참조하십시오.
+
+✖
+기본 라우팅
+
+라우팅은 URI(또는 경로) 및 특정한 HTTP 요청 메소드(GET, POST 등)인 특정 엔드포인트에 대한 클라이언트 요청에 애플리케이션이 응답하는 방법을 결정하는 것을 말합니다.
+
+각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
+
+라우트 정의에는 다음과 같은 구조가 필요합니다.
+
+
+app.METHOD(PATH, HANDLER)
+
+여기서,
+
+    app은 express의 인스턴스입니다.
+    METHOD는 HTTP 요청 메소드입니다.
+    PATH는 서버에서의 경로입니다.
+    HANDLER는 라우트가 일치할 때 실행되는 함수입니다.
+
+이 학습서에서는 app이라는 이름의 express 인스턴스가 작성되며 서버가 실행 중인 것으로 가정합니다. 앱의 작성 및 시작에 익숙하지 않은 경우에는 Hello world 예제를 참조하십시오.
+
+다음 예에서는 간단한 라우트의 정의를 설명합니다.
+
+홈 페이지에서 Hello World!로 응답:
+
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+애플리케이션의 홈 페이지인 루트 라우트(/)에서 POST 요청에 응답:
+
+
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+
+/user 라우트에 대한 PUT 요청에 응답:
+
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+/user 라우트에 대한 DELETE 요청에 응답:
+
+
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+
+라우팅에 대한 자세한 내용을 확인하려면 라우팅 안내서를 참조하십시오.
+Express는 OpenJS 기반의 프로젝트입니다.
+GitHub에서 웹사이트의 포크를 작성하십시오.
+Copyright © StrongLoop, Inc., and other expressjs.com contributors.
+크리에이티브 커먼즈 라이선스 이 저작물은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 미국 라이선스에 따라 이용할 수 있습니다.
