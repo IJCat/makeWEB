@@ -7,11 +7,18 @@ module.exports = {
     }
   },
 
-  StatusUI: function (req, res) {
+  statusUI: function (req, res) {
     var authStatusUI = `<a href="/auth/login">login</a>`;
     if (this.isOwner(req, res)) {
       authStatusUI = `${req.session.nickname} | <a href="/auth/logout">logout</a>`;
     }
     return authStatusUI;
+  },
+
+  accessModifier: function (req, res) {
+    if (this.isOwner(req, res) === false) {
+      res.redirect('/');
+      return false;
+    }
   },
 };

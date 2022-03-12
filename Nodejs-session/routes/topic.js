@@ -7,6 +7,13 @@ var template = require('../lib/template.js');
 var auth = require('../lib/auth');
 
 router.get('/create', (req, res) => {
+  // if (auth.isOwner(req, res) === false) {
+  //   res.redirect('/');
+  //   return false;
+  // }
+  // 접근제한자 모듈로 제작
+  auth.accessModifier(req, res);
+
   var title = 'create';
   var list = template.list(req.list);
   var html = template.HTML(
@@ -24,28 +31,16 @@ router.get('/create', (req, res) => {
       </form>
       `,
     '',
-    auth.StatusUI(req, res)
+    auth.statusUI(req, res)
   );
   res.send(html);
 });
 
 router.post('/create_process', (req, res) => {
-  /* var body = '';
-
-  req.on('data', data => (body += data));
-
-  req.on('end', () => {
-    var post = qs.parse(body);
-    var title = post.title;
-    var description = post.description;
-
-    fs.writeFile(`data/${title}`, description, 'utf8', err => {
-      // res.writeHead(302, { Location: `/page/${title}` });
-      // res.end();
-      res.redirect(`/page/${title}`);
-    });
-  }); 
-  */
+  if (auth.isOwner(req, res) === false) {
+    res.redirect('/');
+    return false;
+  }
 
   var post = req.body;
   var title = post.title;
@@ -57,6 +52,10 @@ router.post('/create_process', (req, res) => {
 });
 
 router.get('/update/:pageId', (req, res) => {
+  if (auth.isOwner(req, res) === false) {
+    res.redirect('/');
+    return false;
+  }
   var filteredId = path.parse(req.params.pageId).base;
 
   fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
@@ -78,7 +77,7 @@ router.get('/update/:pageId', (req, res) => {
         </form>
         `,
       `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,
-      auth.StatusUI(req, res)
+      auth.statusUI(req, res)
     );
 
     res.send(html);
@@ -86,6 +85,10 @@ router.get('/update/:pageId', (req, res) => {
 });
 
 router.post('/update_process', (req, res) => {
+  if (auth.isOwner(req, res) === false) {
+    res.redirect('/');
+    return false;
+  }
   var post = req.body;
   var id = post.id;
   var title = post.title;
@@ -99,6 +102,10 @@ router.post('/update_process', (req, res) => {
 });
 
 router.post('/delete_process', (req, res) => {
+  if (auth.isOwner(req, res) === false) {
+    res.redirect('/');
+    return false;
+  }
   var post = req.body;
   var id = post.id;
   var filteredId = path.parse(id).base;
@@ -131,7 +138,7 @@ router.get('/:pageId', (req, res, next) => {
               <input type="hidden" name="id" value="${sanitizedTitle}">
               <input type="submit" value="delete">
             </form>`,
-        auth.StatusUI(req, res)
+        auth.statusUI(req, res)
       );
       res.send(html);
     }
