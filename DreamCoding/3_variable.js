@@ -6,6 +6,7 @@
 // 2. Variable, rw(read/write)
 // let (added in ES6)
 let globalName = 'global name';
+
 {
   let name = 'ellie';
   console.log(name);
